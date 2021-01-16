@@ -79,12 +79,18 @@ def generate_decks(raw_decks: Dict[str, Any]) -> Dict[str, Any]:
     for deck_name, note_dict in raw_decks.items():
         deck = Deck(356246245, deck_name)
 
-        for contents in note_dict.values():
-            note = Note(
-                model=model, fields=[contents["front"], contents["back"]]
+        for note_name, contents in note_dict.items():
+            deck.add_note(
+                Note(model=model, fields=[contents["front"], contents["back"]])
             )
 
-            deck.add_note(note)
+            if note_name.endswith(".reversible"):
+                deck.add_note(
+                    Note(
+                        model=model,
+                        fields=[contents["back"], contents["front"]],
+                    )
+                )
 
         result[deck_name] = Package(deck)
 
