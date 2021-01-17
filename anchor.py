@@ -5,6 +5,20 @@ from typing import Any, DefaultDict, Dict, Set
 
 from genanki import Deck, Note, Model, Package
 
+HTML_PREFIX = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+</head>
+<body>
+"""
+
+HTML_SUFFIX = """
+</body>
+</html>
+"""
+
 ENDINGS = {".front.html": "front", ".back.html": "back"}
 
 logger = logging.getLogger()
@@ -53,7 +67,7 @@ def read_raw_decks() -> Dict[str, Any]:
                 target_filename = f"{file_prefix}{ending}"
                 target_filename = os.path.join(abs_deck_folder, target_filename)
 
-                with open(target_filename, "r") as f:
+                with open(target_filename, "r", encoding="utf8") as f:
                     note_contents[file_prefix][ENDINGS[ending]] = f.read()
 
         decks[deck_folder.name] = note_contents
