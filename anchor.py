@@ -5,20 +5,6 @@ from typing import Any, DefaultDict, Dict, Set
 
 from genanki import Deck, Note, Model, Package
 
-HTML_PREFIX = """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-</head>
-<body>
-"""
-
-HTML_SUFFIX = """
-</body>
-</html>
-"""
-
 ENDINGS = {".front.html": "front", ".back.html": "back"}
 
 logger = logging.getLogger()
