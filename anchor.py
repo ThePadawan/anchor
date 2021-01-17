@@ -64,9 +64,9 @@ def read_raw_decks() -> Dict[str, Any]:
 def generate_decks(raw_decks: Dict[str, Any]) -> Dict[str, Any]:
     result = {}
 
-    model = Model(
+    default_model = Model(
         13524624,
-        "Foobar Model",
+        "Default Layout",
         fields=[
             {"name": "Front"},
             {"name": "Back"},
@@ -76,19 +76,31 @@ def generate_decks(raw_decks: Dict[str, Any]) -> Dict[str, Any]:
         ],
     )
 
+    reversed_model = Model(
+        13524625,
+        "Reverse Layout",
+        fields=[
+            {"name": "Front"},
+            {"name": "Back"},
+        ],
+        templates=[
+            {"name": "Default", "qfmt": "{{Back}}", "afmt": "{{Front}}"}
+        ],
+    )
+
     for deck_name, note_dict in raw_decks.items():
         deck = Deck(356246245, deck_name)
 
         for note_name, contents in note_dict.items():
-            deck.add_note(
-                Note(model=model, fields=[contents["front"], contents["back"]])
-            )
-
+            models = [default_model]
             if note_name.endswith(".reversible"):
+                models.append(reversed_model)
+
+            for model in models:
                 deck.add_note(
                     Note(
                         model=model,
-                        fields=[contents["back"], contents["front"]],
+                        fields=[contents["front"], contents["back"]],
                     )
                 )
 
