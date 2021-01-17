@@ -132,7 +132,6 @@ def save_decks(decks: dict) -> None:
 
 
 # TODO: No support for media files yet.
-# TODO: Umlauts are broken, because of course they are.
 # TODO: Take flag whether to create N decks or combine all notes into one.
 def main() -> None:
     raw_decks = read_raw_decks()
